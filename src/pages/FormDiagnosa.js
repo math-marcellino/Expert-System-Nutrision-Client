@@ -11,6 +11,7 @@ function FormDiagnosa(){
     const inputTinggiBadan = useRef();
     const inputPekerjaan = useRef();
     const inputAktivitas = useRef();
+    const inputUsia = useRef();
 
     const getData = (event) =>{
         event.preventDefault();
@@ -21,14 +22,16 @@ function FormDiagnosa(){
         const tinggiBadan = inputTinggiBadan.current.value;
         const pekerjaan = inputPekerjaan.current.value;
         const aktivitas = inputAktivitas.current.value;
+        const usia = inputUsia.current.value;
 
         const data_diri = {
             nama: nama,
-            jenisKelamin: jenisKelamin,
-            beratBadan: beratBadan,
-            tinggiBadan: tinggiBadan,
-            pekerjaan: pekerjaan,
-            aktivitas: aktivitas
+            usia: usia,
+            jenis_kelamin: jenisKelamin,
+            tinggi_bada: tinggiBadan,
+            berat_badan: beratBadan,
+            faktor_aktivitas: aktivitas,
+            gejala: []
         };
 
         console.log(data_diri);
@@ -51,6 +54,13 @@ function FormDiagnosa(){
                     <div>
                         <label htmlFor="name" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Nama</label>
                         <input type="text" name="name" ref={inputNama} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                    </div>
+
+                    <br />
+
+                    <div>
+                        <label htmlFor="usia" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Usia</label>
+                        <input type="number" name="usia" ref={inputUsia} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                     </div>
 
                     <br />
@@ -91,8 +101,9 @@ function FormDiagnosa(){
                         <label htmlFor="aktivitas" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Aktivitas</label>
                         <select name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
-                            <option value="pria">Pria</option>
-                            <option value="wanita">Wanita</option>
+                            <option value="ringan">Ringan</option>
+                            <option value="sedang">Sedang</option>
+                            <option value="berat">Berat</option>
                         </select>
                     </div>
 
@@ -150,7 +161,7 @@ function FormDiagnosa(){
                 </div>
 
                 <div className="w-4/5 m-auto relative inset-x-0 bottom-0 my-10">
-                    <Link to="/hasil-diagnosa"><button type="submit" className="float-right px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Lihat Hasil</button></Link>  
+                    <button type="submit" className="float-right px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Lihat Hasil</button> 
                     <Link to="/"><button className="px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Back</button></Link>
                 </div>
             </form>
