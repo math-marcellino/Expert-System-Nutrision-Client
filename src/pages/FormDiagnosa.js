@@ -40,7 +40,7 @@ function FormDiagnosa(){
 
         const hasil = res.data;
 
-        console.log('hasil');
+        console.log(hasil);
     }
 
     useEffect(() => {
