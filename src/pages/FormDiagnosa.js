@@ -1,26 +1,27 @@
 import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import diagnosa_penyakit from '../images/diagnosa-penyakit.png';
+import axios from 'axios';
 
 function FormDiagnosa(){
-    const [checkedState, setCheckedState] = useState([])
+    const [checkedState, setCheckedState] = useState([]);
+    const [dataGejala, setGejala] = useState();
+    const [data, setData] = useState({});
 
     const inputNama = useRef();
     const inputJenisKelamin = useRef();
     const inputBeratBadan = useRef();
     const inputTinggiBadan = useRef();
-    const inputPekerjaan = useRef();
     const inputAktivitas = useRef();
     const inputUsia = useRef();
 
-    const getData = (event) =>{
+    const getFormData = (event) =>{
         event.preventDefault();
         //variabel form data diri
         const nama = inputNama.current.value;
         const jenisKelamin = inputJenisKelamin.current.value;
         const beratBadan = inputBeratBadan.current.value;
         const tinggiBadan = inputTinggiBadan.current.value;
-        const pekerjaan = inputPekerjaan.current.value;
         const aktivitas = inputAktivitas.current.value;
         const usia = inputUsia.current.value;
 
@@ -37,8 +38,22 @@ function FormDiagnosa(){
         console.log(data_diri);
     }
 
-    const boxChecked = (value) =>{
+    useEffect(() => {
+        fetchDataGejala();
+    }, []);
 
+    useEffect(() => {
+        setGejala(data.data)
+        setCheckedState(data.data)
+        console.log(dataGejala)
+        if(dataGejala){
+            console.log(dataGejala.length)
+        }
+    }, [data, dataGejala]);
+
+    const fetchDataGejala = async () =>{
+        const response = await axios.get('http://localhost:8080/api/gejala');
+        setData(response);
     }
 
     return (
@@ -46,7 +61,7 @@ function FormDiagnosa(){
             <div className="w-4/5 relative">
                 <h1 className="text-3xl text-green-500 font-extrabold m-5">Expert System</h1>
             </div>
-            <form className="w-4/5 m-auto" onSubmit={getData}>
+            <form className="w-4/5 m-auto" onSubmit={getFormData}>
                 {/* Pertanyaan Data Diri */}
                 <div className="px-5 my-10">
                     <h1 className="text-center text-3xl font-extrabold p-10">Data Diri</h1>
@@ -91,13 +106,6 @@ function FormDiagnosa(){
                     <br />
 
                     <div>
-                        <label htmlFor="pekerjaan" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Pekerjaan</label>
-                        <input type="text" ref={inputPekerjaan} name="pekerjaan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-
-                    <br />
-
-                    <div>
                         <label htmlFor="aktivitas" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Aktivitas</label>
                         <select name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
@@ -120,37 +128,23 @@ function FormDiagnosa(){
                 
                 {/* Pertanyaan Gejala */}
                 <div className="my-10">
-                    <div className="grid grid-cols-7 w-4/5 m-auto">
+                    <div className="grid grid-cols-7 m-auto">
                         <div className="col-span-4 flex justify-center items-center">
-                            <div className="space-x-4 space-y-3">
-                                <h1 className="text-2xl font-bold">Apa gejala penyakit yang sedang anda alami saat ini?</h1><br />
+                            {dataGejala && (
+                                 <div className="space-x-4 space-y-3">
                                 
-                                <div>
-                                    <input type="checkbox" id="G001" name="G001" value="G001"  onChange={boxChecked('G001')}/>
-                                    <label htmlFor="G001" className="text-lg"> Sering mengalami sakit kepala atau pusing</label><br />
-                                </div>
-
-                                <div>
-                                    <input type="checkbox" id="G002" name="G002" value="G002"/>
-                                    <label htmlFor="G002" className="text-lg"> Wajah kemerahan</label><br />
-                                </div>
-
-                                <div>
-                                    <input type="checkbox" id="G003" name="G003" value="G003"/>
-                                    <label htmlFor="G003" className="text-lg"> Sering merasa kantuk atau kelelahan</label><br />
-                                </div>
-
-                                <div>
-                                    <input type="checkbox" id="G004" name="G004" value="G004"/>
-                                    <label htmlFor="G004" className="text-lg"> Detak jantung cepat</label><br />
-                                </div>
-
-                                <div>
-                                    <input type="checkbox" id="G005" name="G005" value="G005"/>
-                                    <label htmlFor="G005" className="text-lg"> Sulit bernafas</label><br />
-                                </div>
-                                
-                            </div>
+                                    <h1 className="text-2xl font-bold">Apa gejala penyakit yang sedang anda alami saat ini?</h1><br />
+ 
+                                     {dataGejala.map(gejala =>(
+                                         <div>
+                                             <input type="checkbox" id={gejala.ID_gejala} name={gejala.ID_gejala} value={gejala.ID_Gejala}/>
+                                             <label htmlFor={gejala.ID_Gejala} className="text-lg mx-4">{gejala.Nama_Gejala}</label><br />
+                                         </div>
+                                     ))}
+                                     
+                                 </div>   
+                            )}
+                            
                         </div>
 
                         <div className="col-span-3 flex justify-center items-center">
