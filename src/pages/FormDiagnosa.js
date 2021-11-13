@@ -4,9 +4,10 @@ import diagnosa_penyakit from '../images/diagnosa-penyakit.png';
 import axios from 'axios';
 
 function FormDiagnosa(){
-    const [checkedState, setCheckedState] = useState([]);
-    const [dataGejala, setGejala] = useState();
+    const [checkedState, setCheckedState] = useState([]); //check state dari checbox
+    const [dataGejala, setGejala] = useState([]); //data list gejala dari database
     const [data, setData] = useState({});
+    const [kodeGejala, setKodeGejala] = useState([]); //kode gejala pasien yang isi
 
     const inputNama = useRef();
     const inputJenisKelamin = useRef();
@@ -15,7 +16,7 @@ function FormDiagnosa(){
     const inputAktivitas = useRef();
     const inputUsia = useRef();
 
-    const getFormData = (event) =>{
+    const getFormData = async (event) =>{
         event.preventDefault();
         //variabel form data diri
         const nama = inputNama.current.value;
@@ -32,10 +33,14 @@ function FormDiagnosa(){
             tinggi_bada: tinggiBadan,
             berat_badan: beratBadan,
             faktor_aktivitas: aktivitas,
-            gejala: []
+            gejala: kodeGejala
         };
 
-        console.log(data_diri);
+        const res = await axios.post('http://localhost:8080/api/inference/checking', data_diri);
+
+        const hasil = res.data;
+
+        console.log('hasil');
     }
 
     useEffect(() => {
@@ -44,16 +49,31 @@ function FormDiagnosa(){
 
     useEffect(() => {
         setGejala(data.data)
-        setCheckedState(data.data)
         console.log(dataGejala)
-        if(dataGejala){
-            console.log(dataGejala.length)
-        }
     }, [data, dataGejala]);
+
+    useEffect(() => {
+        if(dataGejala){
+            const arrayState = new Array(dataGejala.length).fill(false);
+            setCheckedState(arrayState);
+        }
+    }, [dataGejala]);
 
     const fetchDataGejala = async () =>{
         const response = await axios.get('http://localhost:8080/api/gejala');
         setData(response);
+    }
+
+    const handleOnChange = (position) =>{
+        const updatedCheckedState = checkedState.map((item, index) => index === position ? !item : item);
+        setCheckedState(updatedCheckedState);
+        const arrayGejala = [];
+        for(var i = 0; i < updatedCheckedState.length; i++){
+            if(updatedCheckedState[i] == true){
+                arrayGejala.push(dataGejala[i].ID_Gejala);
+            }
+        }
+        setKodeGejala(arrayGejala);
     }
 
     return (
@@ -64,7 +84,7 @@ function FormDiagnosa(){
             <form className="w-4/5 m-auto" onSubmit={getFormData}>
                 {/* Pertanyaan Data Diri */}
                 <div className="px-5 my-10">
-                    <h1 className="text-center text-3xl font-extrabold p-10">Data Diri</h1>
+                    <h1 className="text-center text-3xl font-extrabold p-6">Data Diri</h1>
 
                     <div>
                         <label htmlFor="name" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Nama</label>
@@ -109,9 +129,9 @@ function FormDiagnosa(){
                         <label htmlFor="aktivitas" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Aktivitas</label>
                         <select name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
-                            <option value="ringan">Ringan</option>
-                            <option value="sedang">Sedang</option>
-                            <option value="berat">Berat</option>
+                            <option value="Ringan">Ringan</option>
+                            <option value="Sedang">Sedang</option>
+                            <option value="Berat">Berat</option>
                         </select>
                     </div>
 
@@ -135,9 +155,9 @@ function FormDiagnosa(){
                                 
                                     <h1 className="text-2xl font-bold">Apa gejala penyakit yang sedang anda alami saat ini?</h1><br />
  
-                                     {dataGejala.map(gejala =>(
+                                     {dataGejala.map((gejala, index) =>(
                                          <div>
-                                             <input type="checkbox" id={gejala.ID_gejala} name={gejala.ID_gejala} value={gejala.ID_Gejala}/>
+                                             <input type="checkbox" checked={checkedState[index]} onChange={() => handleOnChange(index)} id={gejala.ID_gejala} name={gejala.ID_gejala} value={gejala.ID_Gejala}/>
                                              <label htmlFor={gejala.ID_Gejala} className="text-lg mx-4">{gejala.Nama_Gejala}</label><br />
                                          </div>
                                      ))}
