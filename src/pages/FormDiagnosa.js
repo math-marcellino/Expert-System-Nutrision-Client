@@ -30,11 +30,13 @@ function FormDiagnosa(){
             nama: nama,
             usia: usia,
             jenis_kelamin: jenisKelamin,
-            tinggi_bada: tinggiBadan,
+            tinggi_badan: tinggiBadan,
             berat_badan: beratBadan,
             faktor_aktivitas: aktivitas,
             gejala: kodeGejala
         };
+
+        console.log(data_diri);
 
         const res = await axios.post('http://localhost:8080/api/inference/checking', data_diri);
 
@@ -104,8 +106,8 @@ function FormDiagnosa(){
                         <label htmlFor="kelamin" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Jenis Kelamin</label>
                         <select name="kelamin" ref={inputJenisKelamin} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
-                            <option value="pria">Pria</option>
-                            <option value="wanita">Wanita</option>
+                            <option value="Pria">Pria</option>
+                            <option value="Wanita">Wanita</option>
                         </select>
                     </div>
 
