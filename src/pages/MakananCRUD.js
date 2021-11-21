@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import AdminSidebar from "../Components/AdminSidebar";
 import axios from 'axios';
 import Modal from 'react-modal';
-import { useForm } from 'react-hook-form';
 
 function MakananCRUD() {
 
@@ -81,10 +80,6 @@ function MakananCRUD() {
             setDataMakananSpesifik(makananSpesifik);
         })
         setModalEditIsOpened(true);
-    }
-
-    const onNamaChange = (value) =>{
-        
     }
 
     return(
