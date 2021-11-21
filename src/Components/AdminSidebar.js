@@ -16,6 +16,12 @@ function AdminSidebar() {
                     <h1 className="text-white text-center text-2xl font-bold">Larangan Makanan (Obesitas)</h1>
                 </div>
             </Link>
+
+            <Link to="/">
+                <div className="w-full hover:bg-green-400 py-5 cursor-pointer">
+                    <h1 className="text-white text-center text-2xl font-bold">Go to Homepage</h1>
+                </div>
+            </Link>
         </div>
     );
 }
