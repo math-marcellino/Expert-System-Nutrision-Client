@@ -16,35 +16,35 @@ function LaranganCrud() {
     }, []);
 
     const fetchLarangan = () => {
-        axios.get('http://localhost:8080/api/obesitas').then((resp) => {
+        axios.get('https://expert-system-nutrition.herokuapp.com/api/obesitas').then((resp) => {
             const larangan = resp.data;
             setDataLarangan(larangan)
         })
     }
 
-    const deleteLarangan = (id) => {
-        axios.delete(`http://localhost:8080/api/obesitas/${id}`);
+    const deleteLarangan = async (id) => {
+        await axios.delete(`https://expert-system-nutrition.herokuapp.com/api/obesitas/${id}`);
         window.location.href = "/admin-dashboard/larangan";
     }
 
     const fetchMakanan = () => {
-        axios.get('http://localhost:8080/api/makanan').then((resp) => {
+        axios.get('https://expert-system-nutrition.herokuapp.com/api/makanan').then((resp) => {
             const makanan = resp.data;
             setDataMakanan(makanan);
         })
         setModalIsOpened(true);
     }
 
-    const addLarangan = (event) => {
+    const addLarangan = async (event) => {
         event.preventDefault();
 
         const dataLaranganBaru = {
-            ID_Makanan: laranganTambahan.current.value
+            ID_Makanan: laranganTambahan.current.value 
         }
 
         console.log(dataLaranganBaru)
 
-        axios.post('http://localhost:8080/api/obesitas', dataLaranganBaru);
+        await axios.post('https://expert-system-nutrition.herokuapp.com/api/obesitas', dataLaranganBaru);
 
         window.location.href = "/admin-dashboard/larangan";
     }
@@ -65,10 +65,10 @@ function LaranganCrud() {
                         <tbody>
                             {dataLarangan.map((larangan) => (
                                 <tr className="text-center">
-                                    <td className="p-3 border-b-2">{larangan.ID_Obesitas}</td>
-                                    <td className="p-3 border-b-2">{larangan.Nama_Makanan}</td>
+                                    <td className="p-3 border-b-2">{larangan._id}</td>
+                                    <td className="p-3 border-b-2">{larangan.Makanan.Nama_Makanan}</td>
                                     <td className="py-3 px-5 border-b-2">
-                                        <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => {deleteLarangan(larangan.ID_Obesitas)}}>Delete</button>
+                                        <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => {deleteLarangan(larangan._id)}}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -88,7 +88,7 @@ function LaranganCrud() {
                             <select ref={laranganTambahan} name="laranganMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                                 
                                 {dataMakanan.map((makanan) => (
-                                    <option value={makanan.ID_Makanan}>{makanan.Nama_Makanan}</option>
+                                    <option value={makanan._id}>{makanan.Nama_Makanan}</option>
                                 ))}
                             </select>
                         )}

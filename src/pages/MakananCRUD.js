@@ -29,30 +29,31 @@ function MakananCRUD() {
     }, []);
 
     const fetchMakanan = () => {
-        axios.get('http://localhost:8080/api/makanan').then((resp) => {
+        axios.get('https://expert-system-nutrition.herokuapp.com/api/makanan').then((resp) => {
             const makanan = resp.data;
             setDataMakanan(makanan);
         })
     }
 
-    const deleteMakanan = (id) => {
-        axios.delete(`http://localhost:8080/api/makanan/${id}`);
+    const deleteMakanan = async (id) => {
+        await axios.delete(`https://expert-system-nutrition.herokuapp.com/api/makanan/${id}`);
+        
         window.location.href = "/admin-dashboard/makanan";
     }
 
-    const addMakanan = (event) => {
+    const addMakanan = async (event) => {
         event.preventDefault();
 
         const dataMakananBaru = {
             Nama_Makanan: inputNamaMakanan.current.value,
-            Nilai_Protein: inputProtein.current.value,
             Nilai_Lemak: inputLemak.current.value,
             Nilai_Karbo: inputKarbo.current.value,
+            Nilai_Protein: inputProtein.current.value,
             Nilai_Takaran: inputTakaran.current.value,
             Nilai_Kalori: inputKalori.current.value
         }
 
-        axios.post('http://localhost:8080/api/makanan', dataMakananBaru);
+        await axios.post('https://expert-system-nutrition.herokuapp.com/api/makanan', dataMakananBaru);
 
         window.location.href = "/admin-dashboard/makanan";
     }
@@ -69,14 +70,14 @@ function MakananCRUD() {
             Nilai_Kalori: editKalori.current.value
         }
 
-        axios.put(`http://localhost:8080/api/makanan/${dataMakananSpesifik.ID_Makanan}`, dataMakananEdited);
-        console.log(`http://localhost:8080/api/makanan/${dataMakananSpesifik.ID_Makanan}`)
+        axios.put(`https://expert-system-nutrition.herokuapp.com/api/makanan/${dataMakananSpesifik._id}`, dataMakananEdited);
+        console.log(`https://expert-system-nutrition.herokuapp.com/api/makanan/${dataMakananSpesifik._id}`)
         window.location.href = "/admin-dashboard/makanan";
     }
 
     const fetchMakananSpesifik = (id) => {
-        axios.get(`http://localhost:8080/api/makanan/${id}`).then((resp) => {
-            const makananSpesifik = resp.data[0];
+        axios.get(`https://expert-system-nutrition.herokuapp.com/api/makanan/${id}`).then((resp) => {
+            const makananSpesifik = resp.data;
             setDataMakananSpesifik(makananSpesifik);
         })
         setModalEditIsOpened(true);
@@ -103,7 +104,7 @@ function MakananCRUD() {
                         <tbody>
                             {dataMakanan.map((makanan) => (
                                 <tr className="text-center">
-                                    <td className="p-3 border-b-2">{makanan.ID_Makanan}</td>
+                                    <td className="p-3 border-b-2">{makanan._id}</td>
                                     <td className="p-3 border-b-2">{makanan.Nama_Makanan}</td>
                                     <td className="p-3 border-b-2">{makanan.Nilai_Protein}</td>
                                     <td className="p-3 border-b-2">{makanan.Nilai_Lemak}</td>
@@ -111,8 +112,8 @@ function MakananCRUD() {
                                     <td className="p-3 border-b-2">{makanan.Nilai_Takaran}</td>
                                     <td className="p-3 border-b-2">{makanan.Nilai_Kalori}</td>
                                     <td className="py-3 px-5 border-b-2">
-                                        <button className="py-2 px-4 mx-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded-md" onClick={() => fetchMakananSpesifik(makanan.ID_Makanan)}>Edit</button>
-                                        <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => deleteMakanan(makanan.ID_Makanan)}>Delete</button>
+                                        <button className="py-2 px-4 mx-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded-md" onClick={() => fetchMakananSpesifik(makanan._id)}>Edit</button>
+                                        <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => deleteMakanan(makanan._id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -163,35 +164,37 @@ function MakananCRUD() {
                 
                 <h1 className="text-3xl font-bold text-black text-center mt-16">Edit Makanan</h1>
 
-                <form onSubmit={(e) => editMakanan(e)}>
-                    <div>
-                        <label htmlFor="namaMakanan" className="mt-12 inline-block text-right w-1/6 font-bold text-xl mx-5">Nama Makanan</label>
-                        <input  defaultValue={dataMakananSpesifik.Nama_Makanan} type="text" ref={editNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div>
-                        <label htmlFor="nilaiProtein" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Protein</label>
-                        <input defaultValue={dataMakananSpesifik.Nilai_Protein} type="text" ref={editProtein} name="nilaiProtein" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div>
-                        <label htmlFor="nilaiLemak" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Lemak</label>
-                        <input defaultValue={dataMakananSpesifik.Nilai_Lemak} type="text" ref={editLemak} name="nilaiLemak" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div>
-                        <label htmlFor="nilaiKarbo" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Karbohidrat</label>
-                        <input defaultValue={dataMakananSpesifik.Nilai_Karbo} type="text" ref={editKarbo} name="nilaiKarbo" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div>
-                        <label htmlFor="nilaiTakaran" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Takaran</label>
-                        <input defaultValue={dataMakananSpesifik.Nilai_Takaran} type="text" ref={editTakaran} name="nilaiTakaran" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div>
-                        <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
-                        <input defaultValue={dataMakananSpesifik.Nilai_Kalori} type="text" ref={editKalori} name="nilaiKalori" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
-                    <div className="text-center mt-10">
-                        <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
-                    </div>
-                </form>
+                {dataMakananSpesifik && (
+                    <form onSubmit={(e) => editMakanan(e)}>
+                        <div>
+                            <label htmlFor="namaMakanan" className="mt-12 inline-block text-right w-1/6 font-bold text-xl mx-5">Nama Makanan</label>
+                            <input  defaultValue={dataMakananSpesifik.Nama_Makanan} type="text" ref={editNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div>
+                            <label htmlFor="nilaiProtein" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Protein</label>
+                            <input defaultValue={dataMakananSpesifik.Nilai_Protein} type="text" ref={editProtein} name="nilaiProtein" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div>
+                            <label htmlFor="nilaiLemak" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Lemak</label>
+                            <input defaultValue={dataMakananSpesifik.Nilai_Lemak} type="text" ref={editLemak} name="nilaiLemak" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div>
+                            <label htmlFor="nilaiKarbo" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Karbohidrat</label>
+                            <input defaultValue={dataMakananSpesifik.Nilai_Karbo} type="text" ref={editKarbo} name="nilaiKarbo" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div>
+                            <label htmlFor="nilaiTakaran" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Takaran</label>
+                            <input defaultValue={dataMakananSpesifik.Nilai_Takaran} type="text" ref={editTakaran} name="nilaiTakaran" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div>
+                            <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
+                            <input defaultValue={dataMakananSpesifik.Nilai_Kalori} type="text" ref={editKalori} name="nilaiKalori" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        </div>
+                        <div className="text-center mt-10">
+                            <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
+                        </div>
+                    </form>
+                )}
             </Modal>
         </div>
     );
