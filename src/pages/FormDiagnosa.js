@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
-import React, { useRef } from 'react';
+import Modal from 'react-modal';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 
 function FormDiagnosa(){
+
+    const [hasilDiagnosa, setHasilDiagnosa] = useState({});
+    const [modalIsOpened, setModalIsOpened] = useState(false);
+    const [laranganMakanan, setLaranganMakanan] = useState([]);
+    const [makananTerpilih, setMakananTerpilih] = useState([]);
 
     const inputNama = useRef();
     const inputJenisKelamin = useRef();
@@ -11,6 +17,7 @@ function FormDiagnosa(){
     const inputAktivitas = useRef();
     const inputUsia = useRef();
     const inputStress = useRef();
+
 
     const getFormData = async (event) =>{
         event.preventDefault();
@@ -24,7 +31,7 @@ function FormDiagnosa(){
         const stress = inputStress.current.value;
 
         const data_diri = {
-            nama: nama,
+            // nama: nama,
             usia: usia,
             jenis_kelamin: jenisKelamin,
             tinggi_badan: tinggiBadan,
@@ -33,13 +40,15 @@ function FormDiagnosa(){
             faktor_stress: stress
         };
 
-        console.log(data_diri);
+        const res = await axios.post('https://expert-system-nutrition.herokuapp.com/api/inference/checking', data_diri);
+        
+        setHasilDiagnosa(res.data);
 
-        const res = await axios.post('http://localhost:8080/api/inference/checking', data_diri);
+        setMakananTerpilih(res.data.makananTerpilih);
 
-        const hasil = res.data;
+        setLaranganMakanan(res.data.makananLarangan);
 
-        console.log(hasil);
+        setModalIsOpened(true);  
     }
 
     return (
@@ -101,6 +110,8 @@ function FormDiagnosa(){
                         </select>
                     </div>
 
+                    <br />
+
                     <div>
                         <label htmlFor="stress" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Stress</label>
                         <select name="stress" ref={inputStress} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
@@ -110,24 +121,101 @@ function FormDiagnosa(){
                             <option value="Berat">Berat</option>
                         </select>
                     </div>
-
-                    <br />
-                    {/* <div>
-                        <label htmlFor="faktor_stress" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Faktor Stress</label>
-                        <select name="faktor_stress" className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
-                            <option value="" selected disabled>Pilih</option>
-                            <option value="pria">Pria</option>
-                            <option value="wanita">Wanita</option>
-                        </select>
-                    </div> */}
                 </div>
 
                 <div className="w-4/5 m-auto relative inset-x-0 bottom-0 my-10">
-                    <Link to="/hasil-diagnosa"><button type="submit" className="float-right px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Lihat Hasil</button> </Link>
+                    <button type="submit" className="float-right px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Lihat Hasil</button>
                     {/* <button type="submit" className="float-right px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Lihat Hasil</button>  */}
                     <Link to="/"><button className="px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Back</button></Link>
                 </div>
             </form>
+
+            <Modal isOpen={modalIsOpened} onRequestClose={() => setModalIsOpened(false)} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false}>
+                {hasilDiagnosa && (
+                    <div>
+                        <h1 className="text-3xl font-bold text-black text-center mt-10">Hasil Diagnosa</h1>
+                        <div className="w-4/5 m-auto p-3 my-5">
+                        <h1 className="text-center text-xl my-5">Penyakit Anda : <b>{hasilDiagnosa.penyakit}</b></h1>
+                        <h1 className="text-xl text-center my-5 font-bold">Berikut adalah kebutuhan gizi anda</h1>
+                            <table className="shadow-lg bg-white m-auto text-center">
+                                <thead className="bg-green-400 text-white">
+                                    <tr>
+                                        <th className="px-6 py-2 text-s">Kebutuhan Energi</th>
+                                        <th className="px-6 py-2 text-s">Kebutuhan Karbohidrat</th>
+                                        <th className="px-6 py-2 text-s">Kebutuhan Protein</th>
+                                        <th className="px-6 py-2 text-s">Kebutuhan Lemak</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="px-6 py-2 text-s">{hasilDiagnosa.energi} kkal</td>
+                                        <td className="px-6 py-2 text-s">{hasilDiagnosa.karbo} gram</td>
+                                        <td className="px-6 py-2 text-s">{hasilDiagnosa.protein} gram</td>
+                                        <td className="px-6 py-2 text-s">{hasilDiagnosa.lemak} gram</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            
+                            <h1 className="text-xl text-center my-5 font-bold">Berikut adalah rekomendasi bahan makanan yang dapat anda konsumsi</h1>
+                            <table className="shadow-lg bg-white text-center m-auto">
+                                <thead className="bg-green-400 text-white">
+                                    <tr>
+                                        <th className="px-6 py-2 text-s">Nama Makanan</th>
+                                        <th className="px-6 py-2 text-s">Takaran</th>
+                                        <th className="px-6 py-2 text-s">Protein</th>
+                                        <th className="px-6 py-2 text-s">Lemak</th>
+                                        <th className="px-6 py-2 text-s">Karbohidrat</th>
+                                        <th className="px-6 py-2 text-s">Kalori</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {makananTerpilih.map((makanan) => (
+                                    <tr>
+                                        <td className="px-6 py-2 text-s">{makanan.Nama_Makanan}</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Takaran} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Protein} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Kalori} kkal</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            <br />
+
+                            <h1 className="text-xl text-center my-5 font-bold">Berikut adalah larangan bahan makanan yang tidak boleh anda konsumsi</h1>
+                            <table className="shadow-lg bg-white text-center m-auto">
+                                <thead className="bg-green-400 text-white">
+                                    <tr>
+                                        <th className="px-6 py-2 text-s">Nama Makanan</th>
+                                        <th className="px-6 py-2 text-s">Takaran</th>
+                                        <th className="px-6 py-2 text-s">Protein</th>
+                                        <th className="px-6 py-2 text-s">Lemak</th>
+                                        <th className="px-6 py-2 text-s">Karbohidrat</th>
+                                        <th className="px-6 py-2 text-s">Kalori</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {laranganMakanan.map((makanan) => (
+                                    <tr>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nama_Makanan}</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Takaran} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Protein} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Kalori} kkal</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="w-4/5 m-auto text-center relative inset-x-0 bottom-0 my-10">
+                            <Link to="/"><button className="px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Home</button></Link>  
+                        </div>
+                    </div>
+                )}
+            </Modal>
         </div>
     );
 }
