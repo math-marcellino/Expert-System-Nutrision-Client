@@ -210,6 +210,11 @@ function FormDiagnosa(){
                                 </tbody>
                             </table>
                         </div>
+                        <div>
+                            <h1 className="text-2xl text-center">
+                                Silahkan lakukan konsultasi lebih lanjut dengan dokter spesialis untuk mendapatkan hasil yang lebih spesifik.
+                            </h1>
+                        </div>
                         <div className="w-4/5 m-auto text-center relative inset-x-0 bottom-0 my-10">
                             <Link to="/"><button className="px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full ">Home</button></Link>  
                         </div>
