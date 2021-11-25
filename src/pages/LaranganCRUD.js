@@ -57,16 +57,16 @@ function LaranganCrud() {
                     <table className="border-collapse shadow-lg">
                         <thead className="bg-green-400 text-white">
                             <tr>
-                                <th className="py-5 px-10">ID Larangan Makanan</th>
+                                <th className="py-5 px-10">No</th>
                                 <th className="py-5 px-10">Nama Makanan</th>
                                 <th className="py-5 px-10">Action</th>
                             </tr>
                         </thead>
                         {dataLarangan && (
                             <tbody>
-                                {dataLarangan.map((larangan) => (
+                                {dataLarangan.map((larangan, index) => (
                                     <tr className="text-center">
-                                        <td className="p-3 border-b-2">{larangan._id}</td>
+                                        <td className="p-3 border-b-2">{index + 1}</td>
                                         <td className="p-3 border-b-2">{larangan.Makanan.Nama_Makanan}</td>
                                         <td className="py-3 px-5 border-b-2">
                                             <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => {deleteLarangan(larangan._id)}}>Delete</button>

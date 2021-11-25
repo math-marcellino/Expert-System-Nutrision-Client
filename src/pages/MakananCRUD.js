@@ -89,21 +89,21 @@ function MakananCRUD() {
                     <table className="border-collapse shadow-lg">
                         <thead className="bg-green-400 text-white">
                             <tr>
-                                <th className="py-5 px-10">ID Makanan</th>
-                                <th className="py-5 px-10">Nama Makanan</th>
-                                <th className="py-5 px-10">Protein</th>
-                                <th className="py-5 px-10">Lemak</th>
-                                <th className="py-5 px-10">Karbohidrat</th>
-                                <th className="py-5 px-10">Takaran</th>
-                                <th className="py-5 px-10">Kalori</th>
-                                <th className="py-5 px-10">Action</th>
+                                <th className="py-6 px-6">Nomor</th>
+                                <th className="py-6 px-6">Nama Makanan</th>
+                                <th className="py-6 px-6">Protein</th>
+                                <th className="py-6 px-6">Lemak</th>
+                                <th className="py-6 px-6">Karbohidrat</th>
+                                <th className="py-6 px-6">Takaran</th>
+                                <th className="py-6 px-6">Kalori</th>
+                                <th className="py-6 px-6">Action</th>
                             </tr>
                         </thead>
                         {dataMakanan && (
                             <tbody>
-                                {dataMakanan.map((makanan) => (
+                                {dataMakanan.map((makanan, index) => (
                                     <tr className="text-center">
-                                        <td className="p-3 border-b-2">{makanan._id}</td>
+                                        <td className="p-3 border-b-2">{index + 1}</td>
                                         <td className="p-3 border-b-2">{makanan.Nama_Makanan}</td>
                                         <td className="p-3 border-b-2">{makanan.Nilai_Protein}</td>
                                         <td className="p-3 border-b-2">{makanan.Nilai_Lemak}</td>
