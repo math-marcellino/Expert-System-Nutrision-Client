@@ -16,6 +16,7 @@ function MakananCRUD() {
     const inputKarbo = useRef();
     const inputTakaran = useRef();
     const inputKalori = useRef();
+    const inputStatus = useRef();
 
     const idEditMakanan = useRef();
     const editNamaMakanan = useRef();
@@ -51,7 +52,8 @@ function MakananCRUD() {
             Nilai_Karbo: inputKarbo.current.value,
             Nilai_Protein: inputProtein.current.value,
             Nilai_Takaran: inputTakaran.current.value,
-            Nilai_Kalori: inputKalori.current.value
+            Nilai_Kalori: inputKalori.current.value,
+            Status: inputStatus.current.value
         }
 
         await axios.post('https://expert-system-nutrition.herokuapp.com/api/makanan', dataMakananBaru);
@@ -59,18 +61,21 @@ function MakananCRUD() {
         window.location.href = "/admin-dashboard/makanan";
     }
 
-    const editMakanan = (event) => {
+    const editMakanan = async (event) => {
         event.preventDefault();
 
         const dataMakananEdited = {
             Nama_Makanan: editNamaMakanan.current.value,
+            Nilai_Protein: editProtein.current.value,
             Nilai_Lemak: editLemak.current.value,
             Nilai_Karbo: editKarbo.current.value,
-            Nilai_Protein: editProtein.current.value,
             Nilai_Takaran: editTakaran.current.value,
             Nilai_Kalori: editKalori.current.value
         }
         console.log(dataMakananEdited);
+        
+        await axios.put(`https://expert-system-nutrition.herokuapp.com/api/makanan/${idEditMakanan.current.value}`, dataMakananEdited);
+
         window.location.href = "/admin-dashboard/makanan";
     }
 
@@ -89,14 +94,15 @@ function MakananCRUD() {
                     <table className="border-collapse shadow-lg">
                         <thead className="bg-green-400 text-white">
                             <tr>
-                                <th className="py-6 px-6">Nomor</th>
-                                <th className="py-6 px-6">Nama Makanan</th>
-                                <th className="py-6 px-6">Protein</th>
-                                <th className="py-6 px-6">Lemak</th>
-                                <th className="py-6 px-6">Karbohidrat</th>
-                                <th className="py-6 px-6">Takaran</th>
-                                <th className="py-6 px-6">Kalori</th>
-                                <th className="py-6 px-6">Action</th>
+                                <th className="py-6 px-2">Nomor</th>
+                                <th className="py-6 px-2">Nama Makanan</th>
+                                <th className="py-6 px-2">Protein</th>
+                                <th className="py-6 px-2">Lemak</th>
+                                <th className="py-6 px-2">Karbohidrat</th>
+                                <th className="py-6 px-2">Takaran</th>
+                                <th className="py-6 px-2">Kalori</th>
+                                <th className="py-6 px-2">Status (Rendah Kalori)</th>
+                                <th className="py-6 px-2">Action</th>
                             </tr>
                         </thead>
                         {dataMakanan && (
@@ -110,6 +116,15 @@ function MakananCRUD() {
                                         <td className="p-3 border-b-2">{makanan.Nilai_Karbo}</td>
                                         <td className="p-3 border-b-2">{makanan.Nilai_Takaran}</td>
                                         <td className="p-3 border-b-2">{makanan.Nilai_Kalori}</td>
+                                        <td className="p-3 border-b-2">
+                                            {makanan.Status && (
+                                                <p>Recommended untuk Penderita Obesitas</p>
+                                            )}
+
+                                            {!makanan.Status && (
+                                                <p>Tidak Recommended untuk Penderita Obesitas</p>
+                                            )}
+                                        </td>                
                                         <td className="py-3 px-5 border-b-2">
                                             <button className="py-2 px-4 mx-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded-md" onClick={() => fetchMakananSpesifik(makanan._id)}>Edit</button>
                                             <button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md" onClick={() => deleteMakanan(makanan._id)}>Delete</button>
@@ -152,6 +167,14 @@ function MakananCRUD() {
                             <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
                             <input type="number" ref={inputKalori} name="nilaiKalori" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
+                        <div>
+                            <label htmlFor="status" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Status (Rendah Kalori)</label>
+                            <select name="status" ref={inputStatus} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
+                                <option selected disabled>Pilih</option>
+                                <option value={true}>Recommended untuk Penderita Obesitas</option>
+                                <option value={false}>Tidak Recommended untuk Penderita Obesitas</option>
+                            </select>
+                        </div>
                         <div className="text-center mt-10">
                             <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
                         </div>
@@ -190,6 +213,13 @@ function MakananCRUD() {
                                 <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
                                 <input defaultValue={dataMakananSpesifik.Nilai_Kalori} step="0.01" type="number" ref={editKalori} name="nilaiKalori" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
+                            <div>
+                            <label htmlFor="status" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Status (Rendah Kalori)</label>
+                            <select name="status" defaultValue={dataMakananSpesifik.Status} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
+                                <option value={true}>Recommended untuk Penderita Obesitas</option>
+                                <option value={false}>Tidak Recommended untuk Penderita Obesitas</option>
+                            </select>
+                        </div>
                             <div className="text-center mt-10">
                                 <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
                             </div>
