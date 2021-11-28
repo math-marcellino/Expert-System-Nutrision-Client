@@ -61,10 +61,10 @@ function FormDiagnosa(){
                 <div className="px-5 my-10">
                     <h1 className="text-center text-3xl font-extrabold p-6 mb-5">Data Diri</h1>
 
-                    <div>
+                    {/* <div>
                         <label htmlFor="name" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Nama</label>
                         <input type="text" name="name" ref={inputNama} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
-                    </div>
+                    </div> */}
 
                     <br />
 
