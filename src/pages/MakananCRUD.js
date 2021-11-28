@@ -59,7 +59,7 @@ function MakananCRUD() {
         window.location.href = "/admin-dashboard/makanan";
     }
 
-    const editMakanan = (event) => {
+    const editMakanan = async (event) => {
         event.preventDefault();
 
         const dataMakananEdited = {
@@ -71,6 +71,9 @@ function MakananCRUD() {
             Nilai_Kalori: editKalori.current.value
         }
         console.log(dataMakananEdited);
+
+        await axios.put(`https://expert-system-nutrition.herokuapp.com/api/makanan/${idEditMakanan.current.value}`, dataMakananEdited);
+
         window.location.href = "/admin-dashboard/makanan";
     }
 
