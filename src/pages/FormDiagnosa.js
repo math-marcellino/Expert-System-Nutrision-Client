@@ -104,9 +104,9 @@ function FormDiagnosa(){
                         <label htmlFor="aktivitas" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Aktivitas</label>
                         <select name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
-                            <option value="Ringan">Ringan</option>
-                            <option value="Sedang">Sedang</option>
-                            <option value="Berat">Berat</option>
+                            <option value="Ringan">Ringan - Aktivitas hidup utama seperti istirahat, kerja kantoran atau menyetir</option>
+                            <option value="Sedang">Sedang - Disamping kegiatan sehari-hari, melakukan kegiatan yang lebih berat, seperti berdiri lebih lama atau pekerjaan rumah.</option>
+                            <option value="Berat">Berat - Sedikit duduk / istirahat dan kemungkinan bekerja dilingkungan yang membutuhkan berdiri dan/atau sedikit kerja fisik.</option>
                         </select>
                     </div>
 
@@ -176,7 +176,7 @@ function FormDiagnosa(){
                                         <td className="px-6 py-2 text-s">{makanan.Nilai_Takaran} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Nilai_Protein} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Nilai_Lemak} gram</td>
-                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Nilai_Karbo} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Nilai_Kalori} kkal</td>
                                     </tr>
                                 ))}
@@ -203,7 +203,7 @@ function FormDiagnosa(){
                                         <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Takaran} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Protein} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Lemak} gram</td>
-                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Lemak} gram</td>
+                                        <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Karbo} gram</td>
                                         <td className="px-6 py-2 text-s">{makanan.Makanan.Nilai_Kalori} kkal</td>
                                     </tr>
                                 ))}
