@@ -22,7 +22,6 @@ function FormDiagnosa(){
     const getFormData = async (event) =>{
         event.preventDefault();
         //variabel form data diri
-        const nama = inputNama.current.value;
         const jenisKelamin = inputJenisKelamin.current.value;
         const beratBadan = inputBeratBadan.current.value;
         const tinggiBadan = inputTinggiBadan.current.value;
