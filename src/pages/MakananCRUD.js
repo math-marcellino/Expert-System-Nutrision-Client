@@ -133,27 +133,27 @@ function MakananCRUD() {
                     <form onSubmit={(e) => addMakanan(e)}>
                         <div>
                             <label htmlFor="namaMakanan" className="mt-12 inline-block text-right w-1/6 font-bold text-xl mx-5">Nama Makanan</label>
-                            <input type="text" ref={inputNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="text" ref={inputNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div>
                             <label htmlFor="nilaiProtein" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Protein</label>
-                            <input type="number" ref={inputProtein} name="nilaiProtein" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="number" ref={inputProtein} name="nilaiProtein" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div>
                             <label htmlFor="nilaiLemak" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Lemak</label>
-                            <input type="number" ref={inputLemak} name="nilaiLemak" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="number" ref={inputLemak} name="nilaiLemak" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div>
                             <label htmlFor="nilaiKarbo" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Karbohidrat</label>
-                            <input type="number" ref={inputKarbo} name="nilaiKarbo" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="number" ref={inputKarbo} name="nilaiKarbo" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div>
                             <label htmlFor="nilaiTakaran" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Takaran</label>
-                            <input type="number" ref={inputTakaran} name="nilaiTakaran" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="number" ref={inputTakaran} name="nilaiTakaran" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div>
                             <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
-                            <input type="number" ref={inputKalori} name="nilaiKalori" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                            <input required type="number" ref={inputKalori} name="nilaiKalori" step="0.01" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                         </div>
                         <div className="text-center mt-10">
                             <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
@@ -171,27 +171,27 @@ function MakananCRUD() {
                             <input ref={idEditMakanan} type="hidden" defaultValue={dataMakananSpesifik._id} />
                             <div>
                                 <label htmlFor="namaMakanan" className="mt-12 inline-block text-right w-1/6 font-bold text-xl mx-5">Nama Makanan</label>
-                                <input  defaultValue={dataMakananSpesifik.Nama_Makanan} type="text" ref={editNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nama_Makanan} type="text" ref={editNamaMakanan} name="namaMakanan" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div>
                                 <label htmlFor="nilaiProtein" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Protein</label>
-                                <input defaultValue={dataMakananSpesifik.Nilai_Protein} step="0.01" type="number" ref={editProtein} name="nilaiProtein" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nilai_Protein} step="0.01" type="number" ref={editProtein} name="nilaiProtein" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div>
                                 <label htmlFor="nilaiLemak" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Lemak</label>
-                                <input defaultValue={dataMakananSpesifik.Nilai_Lemak} step="0.01" type="number" ref={editLemak} name="nilaiLemak" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nilai_Lemak} step="0.01" type="number" ref={editLemak} name="nilaiLemak" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div>
                                 <label htmlFor="nilaiKarbo" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Karbohidrat</label>
-                                <input defaultValue={dataMakananSpesifik.Nilai_Karbo} step="0.01" type="number" ref={editKarbo} name="nilaiKarbo" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nilai_Karbo} step="0.01" type="number" ref={editKarbo} name="nilaiKarbo" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div>
                                 <label htmlFor="nilaiTakaran" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Takaran</label>
-                                <input defaultValue={dataMakananSpesifik.Nilai_Takaran} step="0.01" type="number" ref={editTakaran} name="nilaiTakaran" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nilai_Takaran} step="0.01" type="number" ref={editTakaran} name="nilaiTakaran" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div>
                                 <label htmlFor="nilaiKalori" className="mt-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Nilai Kalori</label>
-                                <input defaultValue={dataMakananSpesifik.Nilai_Kalori} step="0.01" type="number" ref={editKalori} name="nilaiKalori" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                                <input required defaultValue={dataMakananSpesifik.Nilai_Kalori} step="0.01" type="number" ref={editKalori} name="nilaiKalori" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                             </div>
                             <div className="text-center mt-10">
                                 <button className="p-3 bg-green-400 text-lg text-white rounded-md font-bold" type="submit">Submit</button>
