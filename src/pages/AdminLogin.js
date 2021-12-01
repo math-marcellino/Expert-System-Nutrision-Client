@@ -18,8 +18,11 @@ function AdminLogin() {
             Nama_Admin: username.current.value,
             Password_Admin: password.current.value
         }
+
+        console.log(dataLogin);
         
         setLoading(true);
+
         const res = await axios.post('https://expert-system-nutrition.herokuapp.com/api/admin/acc/signin', dataLogin);
 
         if(res.data.login){
@@ -27,9 +30,8 @@ function AdminLogin() {
             navigate('/admin-dashboard', { replace: true });
         } else{
             setMessage(res.data.message);
+            setLoading(false);
         }
-
-        
     }
 
     if(sessionStorage.getItem("token")){
@@ -43,10 +45,10 @@ function AdminLogin() {
                     <h1 className="text-3xl font-bold text-center mb-10">Admin Login</h1>
     
                     <label htmlFor="username" className="mb-10 inline-block text-right w-1/6 font-bold text-xl mx-5">Username</label>
-                    <input ref={username} name="username" type="text" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>
+                    <input ref={username} name="username" required type="text" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>
                     
                     <label htmlFor="password" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Password</label>
-                    <input ref={password} name="password" type="password" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>
+                    <input ref={password} name="password" required type="password" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>
                     <br />
                     <br />
                     {message && (

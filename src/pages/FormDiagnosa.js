@@ -138,8 +138,8 @@ function FormDiagnosa(){
                 {loading ? (
                     <div className="flex justify-center items-center w-full h-full">
                         <div className="m-auto text-center">
-                            <ReactLoading type="spinningBubbles" color="green" height={'70%'} width={'70%'}/>
-                            <h1>Menjalankan diagnosa...</h1>
+                            <ReactLoading type="spinningBubbles" color="green" height={'50%'} width={'50%'}/>
+                            <h1 className="mt-5">Menjalankan diagnosa...</h1>
                         </div>
                     </div>
                 ) : (
