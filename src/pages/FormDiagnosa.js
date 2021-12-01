@@ -74,14 +74,14 @@ function FormDiagnosa(){
 
                     <div>
                         <label htmlFor="usia" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Usia</label>
-                        <input type="number" name="usia" ref={inputUsia} min="18" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        <input required type="number" name="usia" ref={inputUsia} min="18" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                     </div>
 
                     <br />
 
                     <div>
                         <label htmlFor="kelamin" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Jenis Kelamin</label>
-                        <select name="kelamin" ref={inputJenisKelamin} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
+                        <select required name="kelamin" ref={inputJenisKelamin} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
                             <option value="Pria">Pria</option>
                             <option value="Wanita">Wanita</option>
@@ -92,21 +92,21 @@ function FormDiagnosa(){
 
                     <div>
                         <label htmlFor="berat" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Berat Badan (Kg)</label>
-                        <input type="number" ref={inputBeratBadan} name="berat" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        <input required type="number" ref={inputBeratBadan} name="berat" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                     </div>
 
                     <br />
 
                     <div>
                         <label htmlFor="tinggi" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Tinggi Badan (Cm)</label>
-                        <input type="number" ref={inputTinggiBadan} name="tinggi" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        <input required type="number" ref={inputTinggiBadan} name="tinggi" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                     </div>
 
                     <br />
 
                     <div>
                         <label htmlFor="aktivitas" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Aktivitas</label>
-                        <select name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
+                        <select required name="aktivitas" ref={inputAktivitas} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
                             <option value="Ringan">Ringan - Aktivitas hidup utama seperti istirahat, kerja kantoran atau menyetir</option>
                             <option value="Sedang">Sedang - Disamping kegiatan sehari-hari, melakukan kegiatan yang lebih berat, seperti berdiri lebih lama atau pekerjaan rumah.</option>
@@ -118,7 +118,7 @@ function FormDiagnosa(){
 
                     <div>
                         <label htmlFor="stress" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Stress</label>
-                        <select name="stress" ref={inputStress} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
+                        <select required name="stress" ref={inputStress} className="border w-1/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3">
                             <option value="" selected disabled>Pilih</option>
                             <option value="Ringan">Ringan</option>
                             <option value="Sedang">Sedang</option>
