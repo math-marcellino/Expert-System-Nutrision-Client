@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom'
+import ReactLoading from 'react-loading'
 
 function AdminLogin() {
 
     const [message, setMessage] = useState();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const username = useRef();
     const password = useRef();
@@ -17,8 +19,9 @@ function AdminLogin() {
             Password_Admin: password.current.value
         }
         
+        setLoading(true);
         const res = await axios.post('https://expert-system-nutrition.herokuapp.com/api/admin/acc/signin', dataLogin);
-        console.log(res);
+
         if(res.data.login){
             sessionStorage.setItem("token", res.data.token);
             navigate('/admin-dashboard', { replace: true });
@@ -56,6 +59,12 @@ function AdminLogin() {
                     <div className="text-center">
                         <button type="submit" className="px-5 py-2 text-lg bg-green-400 text-white font-bold rounded-md">Login</button>
                     </div>
+                    {loading && (
+                    <div className="flex justify-center items-center w-full mt-10">
+                        <ReactLoading type="spinningBubbles" color="green" height={'5%'} width={'5%'}/>
+                        <h1 className="mx-5">Logging In...</h1>
+                    </div>
+                )}
                 </form>
             </div>
         );

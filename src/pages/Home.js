@@ -11,9 +11,9 @@ function Home() {
                         <Link to="admin-login">
                             <button className="my-5 px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full inline ">Admin Login</button>
                         </Link>
-                        <Link to="admin-register">
+                        {/* <Link to="admin-register">
                             <button className="my-5 px-6 py-2 bg-green-400 hover:bg-green-500 transition duration-300 text-white text-lg font-bold rounded-full inline mx-5">Admin Register</button>
-                        </Link>
+                        </Link> */}
                     </div>
                 )}
                 {sessionStorage.getItem("token") && (

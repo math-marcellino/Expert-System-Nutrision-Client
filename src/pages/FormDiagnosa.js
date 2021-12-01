@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
+import ReactLoading from 'react-loading';
 
 function FormDiagnosa(){
 
@@ -9,6 +10,7 @@ function FormDiagnosa(){
     const [modalIsOpened, setModalIsOpened] = useState(false);
     const [laranganMakanan, setLaranganMakanan] = useState([]);
     const [makananTerpilih, setMakananTerpilih] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const inputNama = useRef();
     const inputJenisKelamin = useRef();
@@ -39,6 +41,9 @@ function FormDiagnosa(){
             faktor_stress: stress
         };
 
+        setModalIsOpened(true);
+        setLoading(true);
+
         const res = await axios.post('https://expert-system-nutrition.herokuapp.com/api/inference/checking', data_diri);
         
         setHasilDiagnosa(res.data);
@@ -47,7 +52,7 @@ function FormDiagnosa(){
 
         setLaranganMakanan(res.data.makananLarangan);
 
-        setModalIsOpened(true);  
+        setLoading(false);
     }
 
     return (
@@ -130,7 +135,14 @@ function FormDiagnosa(){
             </form>
 
             <Modal isOpen={modalIsOpened} onRequestClose={() => setModalIsOpened(false)} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false}>
-                {hasilDiagnosa && (
+                {loading ? (
+                    <div className="flex justify-center items-center w-full h-full">
+                        <div className="m-auto text-center">
+                            <ReactLoading type="spinningBubbles" color="green" height={'70%'} width={'70%'}/>
+                            <h1>Menjalankan diagnosa...</h1>
+                        </div>
+                    </div>
+                ) : (
                     <div>
                         <h1 className="text-3xl font-bold text-black text-center mt-10">Hasil Diagnosa</h1>
                         <div className="w-4/5 m-auto p-3 my-5">
@@ -219,6 +231,7 @@ function FormDiagnosa(){
                         </div>
                     </div>
                 )}
+                
             </Modal>
         </div>
     );
