@@ -69,7 +69,7 @@ function FormDiagnosa(){
 
                     <div>
                         <label htmlFor="usia" className="inline-block text-right w-1/6 font-bold text-xl mx-5">Usia</label>
-                        <input type="number" name="usia" ref={inputUsia} className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
+                        <input type="number" name="usia" ref={inputUsia} min="18" className="border w-3/5 rounded-xl focus:outline-none focus:border-green-400 py-2 px-3"/>   
                     </div>
 
                     <br />
